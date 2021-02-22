@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wearweatherapp.R;
-import com.wearweatherapp.data.DailyItem;
+import com.wearweatherapp.data.model.domain.DailyItem;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class DailyItemAdapter extends RecyclerView.Adapter<DailyItemAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_daily, parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_daily_weather, parent,false);
 
         return new ViewHolder(v);
     }

@@ -1,8 +1,6 @@
 package com.wearweatherapp.ui.settings;
 
 
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,7 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.wearweatherapp.data.AddressData;
+import com.wearweatherapp.data.model.domain.AddressData;
 import com.wearweatherapp.util.AddressParsingUtil;
 import com.wearweatherapp.util.PreferenceManager;
 import com.wearweatherapp.R;
@@ -35,10 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 
 public class SearchActivity extends AppCompatActivity {

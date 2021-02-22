@@ -11,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wearweatherapp.R;
-import com.wearweatherapp.data.HourlyItem;
-import com.wearweatherapp.ui.main.MainWeatherFragment;
+import com.wearweatherapp.data.model.domain.HourlyItem;
 
 import java.util.List;
 

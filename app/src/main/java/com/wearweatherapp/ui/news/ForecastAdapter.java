@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wearweatherapp.R;
-import com.wearweatherapp.data.NewsData;
+import com.wearweatherapp.data.model.domain.NewsData;
 
 import java.util.ArrayList;
 

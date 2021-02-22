@@ -41,8 +41,8 @@ import com.wearweatherapp.ui.news.NewsXMLActivity;
 import com.wearweatherapp.util.PreferenceManager;
 import com.wearweatherapp.R;
 import com.wearweatherapp.ui.settings.SettingsActivity;
-import com.wearweatherapp.data.DailyItem;
-import com.wearweatherapp.data.HourlyItem;
+import com.wearweatherapp.data.model.domain.DailyItem;
+import com.wearweatherapp.data.model.domain.HourlyItem;
 import com.wearweatherapp.ui.clothing.TemperatureClothingActivity;
 import com.wearweatherapp.ui.clothing.TemperatureClothingActivity2;
 import com.wearweatherapp.ui.clothing.TemperatureClothingActivity3;
@@ -147,15 +147,15 @@ public class MainWeatherFragment extends Fragment {
     }
 
     private void initView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        region=(TextView)rootView.findViewById(R.id.region_text);
-        current_temp = (TextView)rootView.findViewById(R.id.temp_now);
-        current_location = (TextView)rootView.findViewById(R.id.region_text);
+        region=(TextView)rootView.findViewById(R.id.txt_region);
+        current_temp = (TextView)rootView.findViewById(R.id.txt_temp_now);
+        current_location = (TextView)rootView.findViewById(R.id.txt_region);
         current_bodily_temp=(TextView)rootView.findViewById(R.id.bodily_temp);
         current_rain=(TextView)rootView.findViewById(R.id.precipitation_text);
-        current_desc=(TextView)rootView.findViewById(R.id.weather_description);
-        weathericon = (ImageView)rootView.findViewById(R.id.image_weather);
-        current_temp_max =(TextView)rootView.findViewById(R.id.temp_max);
-        current_temp_min =(TextView)rootView.findViewById(R.id.temp_min);
+        current_desc=(TextView)rootView.findViewById(R.id.txt_weather_description);
+        weathericon = (ImageView)rootView.findViewById(R.id.iv_weather);
+        current_temp_max =(TextView)rootView.findViewById(R.id.txt_temp_max);
+        current_temp_min =(TextView)rootView.findViewById(R.id.txt_temp_min);
         current_pressure =(TextView)rootView.findViewById(R.id.pressure);
         current_humidity =(TextView)rootView.findViewById(R.id.humidity);
         current_sunrise =(TextView)rootView.findViewById(R.id.sunrise);
@@ -178,7 +178,7 @@ public class MainWeatherFragment extends Fragment {
 
         /* drawer layout */
         drawerLayout = (DrawerLayout)rootView.findViewById(R.id.main_drawer_layout);
-        menuButton = (ImageButton)rootView.findViewById(R.id.main_menu_btn);
+        menuButton = (ImageButton)rootView.findViewById(R.id.btn_drawer);
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,8 +191,8 @@ public class MainWeatherFragment extends Fragment {
             }
         });
 
-        navigationView = (NavigationView)rootView.findViewById(R.id.drawer_nav_view);
-        navigationView.addHeaderView((View)inflater.inflate(R.layout.drawer_header,container,false));
+        navigationView = (NavigationView)rootView.findViewById(R.id.nv_drawer);
+        navigationView.addHeaderView((View)inflater.inflate(R.layout.layout_drawer_header,container,false));
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -447,7 +447,7 @@ public class MainWeatherFragment extends Fragment {
                     }
 
                     /* HOURLY RECYCLERVIEW */
-                    recyclerView = (RecyclerView) rootView.findViewById(R.id.hourly_recycler);
+                    recyclerView = (RecyclerView) rootView.findViewById(R.id.rv_hourly);
                     LinearLayoutManager layoutManager_h= new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
                     recyclerView.setLayoutManager(layoutManager_h);
 
@@ -457,7 +457,7 @@ public class MainWeatherFragment extends Fragment {
                     adapter_h.notifyDataSetChanged();
 
                     /*DAILY RECYCLERVIEW */
-                    recyclerView2 = (RecyclerView) rootView.findViewById(R.id.daily_recycler);
+                    recyclerView2 = (RecyclerView) rootView.findViewById(R.id.rv_daily);
                     LinearLayoutManager layoutManager= new LinearLayoutManager(getActivity());
                     recyclerView2.setLayoutManager(layoutManager);
 

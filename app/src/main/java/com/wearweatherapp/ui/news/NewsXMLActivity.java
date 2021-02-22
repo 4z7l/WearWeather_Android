@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wearweatherapp.R;
-import com.wearweatherapp.data.NewsData;
+import com.wearweatherapp.data.model.domain.NewsData;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

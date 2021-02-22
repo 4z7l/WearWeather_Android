@@ -59,7 +59,7 @@
                         android:src="@drawable/icon_search" />-->
 
                     <ImageButton
-                        android:id="@+id/main_menu_btn"
+                        android:id="@+id/btn_drawer"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="right"
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/region_text"
+                        android:id="@+id/txt_region"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -87,7 +87,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/weather_description"
+                        android:id="@+id/txt_weather_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -98,7 +98,7 @@
                         android:layout_margin="15dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/region_text" />
+                        app:layout_constraintTop_toBottomOf="@+id/txt_region" />
 
                     <LinearLayout
                         android:id="@+id/linearLayout3"
@@ -106,10 +106,10 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/weather_description">
+                        app:layout_constraintTop_toBottomOf="@+id/txt_weather_description">
 
                         <ImageView
-                            android:id="@+id/image_weather"
+                            android:id="@+id/iv_weather"
                             android:layout_width="120dp"
                             android:layout_height="120dp"
                             android:scaleType="fitCenter"
@@ -123,7 +123,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/temp_now"
+                                android:id="@+id/txt_temp_now"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
@@ -138,7 +138,7 @@
                                 android:layout_marginTop="10dp">
 
                                 <TextView
-                                    android:id="@+id/temp_max"
+                                    android:id="@+id/txt_temp_max"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/temperature_max"
@@ -154,7 +154,7 @@
                                     android:background="@color/colorWhite" />
 
                                 <TextView
-                                    android:id="@+id/temp_min"
+                                    android:id="@+id/txt_temp_min"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="14dp"
@@ -182,7 +182,7 @@
 
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/hourly_recycler"
+                            android:id="@+id/rv_hourly"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"/>
@@ -194,7 +194,7 @@
                             />
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/daily_recycler"
+                            android:id="@+id/rv_daily"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
                         <View
@@ -391,7 +391,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.navigation.NavigationView
-            android:id="@+id/drawer_nav_view"
+            android:id="@+id/nv_drawer"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"

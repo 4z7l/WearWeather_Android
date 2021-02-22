@@ -1,4 +1,4 @@
-package com.wearweatherapp.data;
+package com.wearweatherapp.data.model.domain;
 
 public class HourlyItem {
     private String Days;
