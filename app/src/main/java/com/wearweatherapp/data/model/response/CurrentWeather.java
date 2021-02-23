@@ -1,9 +1,10 @@
 
 package com.wearweatherapp.data.model.response;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class CurrentWeather {
 
@@ -28,6 +29,10 @@ public class CurrentWeather {
     @SerializedName("clouds")
     @Expose
     private Clouds clouds;
+
+    @SerializedName("rain")
+    @Expose
+    private Rain rain;
     @SerializedName("dt")
     @Expose
     private Integer dt;
@@ -101,6 +106,14 @@ public class CurrentWeather {
 
     public void setClouds(Clouds clouds) {
         this.clouds = clouds;
+    }
+
+    public Rain getRain() {
+        return rain;
+    }
+
+    public void setRain(Rain rain) {
+        this.rain = rain;
     }
 
     public Integer getDt() {

@@ -13,15 +13,15 @@ public class HourlyWeatherItemMapper {
 
     public static ArrayList<HourlyWeatherItem> transform(List<Hourly> input) {
         ArrayList<HourlyWeatherItem> out = new ArrayList<HourlyWeatherItem>();
-        for(Hourly item : input){
-            Date date = new java.util.Date(item.getDt()*1000L);
+        for (Hourly item : input) {
+            Date date = new java.util.Date(item.getDt() * 1000L);
             SimpleDateFormat sdf = new java.text.SimpleDateFormat("a h" + "시", Locale.KOREA);
 
             String dt = sdf.format(date);
             String temp = Math.round(item.getTemp()) + "°C";
-            String icon =  item.getWeather().get(0).getIcon();
+            String icon = item.getWeather().get(0).getIcon();
 
-            out.add(new HourlyWeatherItem(dt, temp,icon));
+            out.add(new HourlyWeatherItem(dt, temp, icon));
         }
 
         return out;

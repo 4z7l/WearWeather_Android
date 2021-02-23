@@ -25,7 +25,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
 
                     <ImageButton
                         android:id="@+id/btn_drawer"
@@ -178,6 +179,18 @@
                         android:background="@color/colorWhite"
                         app:layout_constraintTop_toBottomOf="@id/rv_daily" />
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_extra"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/line3"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="2"
+                        tools:itemCount="6"
+                        tools:listitem="@layout/item_extra_weather" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
