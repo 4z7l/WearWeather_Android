@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.wearweatherapp.R;
+import com.wearweatherapp.data.model.mapper.DailyWeatherItemMapper;
 import com.wearweatherapp.data.model.mapper.HourlyWeatherItemMapper;
 import com.wearweatherapp.data.model.response.CurrentWeather;
 import com.wearweatherapp.data.model.response.FutureWeather;
@@ -80,6 +81,8 @@ public class WeatherActivity extends AppCompatActivity {
         binding.slWeather.setOnRefreshListener(() -> {
             /* 새로고침 시 수행될 코드 */
             setBackgroundByTime();
+            getCurrentWeather();
+            getFutureWeather();
 
             /* 새로고침 완료 */
             binding.slWeather.setRefreshing(false);
@@ -164,6 +167,8 @@ public class WeatherActivity extends AppCompatActivity {
                             hourlyWeatherAdapter.setData(HourlyWeatherItemMapper.transform(response.body().getHourly()));
                             hourlyWeatherAdapter.notifyDataSetChanged();
 
+                            dailyWeatherAdapter.setData(DailyWeatherItemMapper.transform(response.body().getDaily()));
+                            dailyWeatherAdapter.notifyDataSetChanged();
 
                         }
                     }
