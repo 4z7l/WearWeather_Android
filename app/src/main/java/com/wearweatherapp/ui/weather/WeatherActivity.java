@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.wearweatherapp.R;
+import com.wearweatherapp.data.model.mapper.HourlyWeatherItemMapper;
 import com.wearweatherapp.data.model.response.CurrentWeather;
 import com.wearweatherapp.data.model.response.FutureWeather;
 import com.wearweatherapp.data.model.response.Hourly;
@@ -41,6 +42,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     ActivityWeatherBinding binding;
     DailyWeatherAdapter dailyWeatherAdapter;
+    HourlyWeatherAdapter hourlyWeatherAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class WeatherActivity extends AppCompatActivity {
         setBackgroundByTime();
         initSwipeLayout();
         initDrawerLayout();
+        initRecyclerView();
     }
 
     private void setBackgroundByTime() {
@@ -111,9 +114,16 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
+        dailyWeatherAdapter = new DailyWeatherAdapter();
+        hourlyWeatherAdapter = new HourlyWeatherAdapter();
+
         binding.rvDaily.setLayoutManager(new LinearLayoutManager(this));
         binding.rvDaily.setHasFixedSize(true);
         binding.rvDaily.setAdapter(dailyWeatherAdapter);
+
+        binding.rvHourly.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
+        binding.rvHourly.setHasFixedSize(true);
+        binding.rvHourly.setAdapter(hourlyWeatherAdapter);
     }
 
     private void getCurrentWeather() {
@@ -151,7 +161,10 @@ public class WeatherActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<FutureWeather> call, Response<FutureWeather> response) {
                         if(response.isSuccessful() && response.body()!=null){
-                            //dailyWeatherAdapter.setData(response.body().getDaily());
+                            hourlyWeatherAdapter.setData(HourlyWeatherItemMapper.transform(response.body().getHourly()));
+                            hourlyWeatherAdapter.notifyDataSetChanged();
+
+
                         }
                     }
                     @Override

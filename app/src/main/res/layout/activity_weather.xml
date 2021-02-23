@@ -143,11 +143,13 @@
                         android:id="@+id/rv_hourly"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:listitem="@layout/item_daily_weather"
-                        tools:itemCount="4"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/line1" />
+                        app:layout_constraintTop_toBottomOf="@id/line1"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/item_hourly_weather" />
 
                     <View
                         android:id="@+id/line2"
@@ -166,9 +168,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/line2"
                         tools:itemCount="4"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_hourly" />
+                        tools:listitem="@layout/item_daily_weather" />
 
                     <View
                         android:id="@+id/line3"
