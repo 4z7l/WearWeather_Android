@@ -1,10 +1,20 @@
 package com.wearweatherapp.ui.settings;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.wearweatherapp.databinding.ActivitySettingsBinding;
 import com.wearweatherapp.util.AddressParsingUtil;
 import com.wearweatherapp.util.GpsTracker;
 import com.wearweatherapp.util.PreferenceManager;
@@ -22,71 +33,57 @@ import java.util.List;
 import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
-    private FrameLayout address_find;
-    private FrameLayout redirect;
-    private FrameLayout favorites;
-    private String location_name;
-    private ImageView backBtn;
 
-
-    private FrameLayout opensource;
+    ActivitySettingsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_settings);
 
-        address_find= findViewById(R.id.search_layout);
-        address_find.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-                startActivity(intent);
-            }
+        initView();
+    }
+
+    @SuppressLint("MissingPermission")
+    private void initView() {
+        binding.flSearch.setOnClickListener(view -> {
+            startActivity(new Intent(getBaseContext(), SearchActivity.class));
         });
 
-        redirect= findViewById(R.id.redirect_layout);
-        redirect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GpsTracker gpsTracker = new GpsTracker(SettingsActivity.this);
+        binding.flRedirect.setOnClickListener(view -> {
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 1, new LocationListener() {
+                @Override
+                public void onLocationChanged(@NonNull Location location) {
+                    Log.e("SEULGI", getCurrentAddress(location.getLatitude(), location.getLongitude()));
+                    lm.removeUpdates(this);
+                }
+                @Override
+                public void onProviderEnabled(@NonNull String provider) {
 
-                double latitude = gpsTracker.getLatitude();
-                double longitude = gpsTracker.getLongitude();
+                }
 
-                PreferenceManager.setFloat(SettingsActivity.this,"LATITUDE",(float)latitude);
-                PreferenceManager.setFloat(SettingsActivity.this,"LONGITUDE",(float)longitude);
+                @Override
+                public void onProviderDisabled(@NonNull String provider) {
 
-                String address = getCurrentAddress(latitude, longitude);
-                address = AddressParsingUtil.getSigunguFromFullAddress(address);
+                }
 
-                Toast.makeText(SettingsActivity.this, "주소가 "+address+"로 설정되었습니다",Toast.LENGTH_SHORT).show();
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
 
-                PreferenceManager.setBoolean(SettingsActivity.this,"IS_ADDRESS_CHANGED",true);
-                PreferenceManager.setString(getApplicationContext(),"CITY",address);
-            }
+                }
+            });
         });
 
-        backBtn = (ImageView) findViewById(R.id.back_btn);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        binding.toolbar.setNavigationOnClickListener( view -> finish());
 
-        opensource = (FrameLayout)findViewById(R.id.opensource_layout);
-        opensource.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), OpenSourceActivity.class);
-                startActivity(intent);
-            }
+        binding.flOpensource.setOnClickListener(view -> {
+            startActivity(new Intent(getBaseContext(), OpenSourceActivity.class));
         });
     }
 
     public String getCurrentAddress( double latitude, double longitude) {
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(this, Locale.KOREA);
         List<Address> addresses;
         try {
             addresses = geocoder.getFromLocation(latitude,longitude,7);
