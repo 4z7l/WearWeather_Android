@@ -57,10 +57,10 @@ public class DailyItemAdapter extends RecyclerView.Adapter<DailyItemAdapter.View
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            yoil=(TextView) itemView.findViewById(R.id.time_daily);
-            low=(TextView)itemView.findViewById(R.id.daily_low_temp);
-            high=(TextView)itemView.findViewById(R.id.daily_high_temp);
-            image=(ImageView)itemView.findViewById(R.id.daily_image);
+            yoil = (TextView) itemView.findViewById(R.id.tv_date);
+            low = (TextView) itemView.findViewById(R.id.tv_low_temp);
+            high = (TextView) itemView.findViewById(R.id.tv_high_temp);
+            image = (ImageView) itemView.findViewById(R.id.iv_daily);
         }
     }
 }

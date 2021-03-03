@@ -6,15 +6,6 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager.widget.ViewPager;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,13 +33,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.wearweatherapp.ui.dust.DustActivity;
-import com.wearweatherapp.ui.main.adapter.DailyItemAdapter;
-import com.wearweatherapp.ui.main.adapter.HourlyItemAdapter;
-import com.wearweatherapp.ui.news.NewsXMLActivity;
-import com.wearweatherapp.util.PreferenceManager;
 import com.wearweatherapp.R;
-import com.wearweatherapp.ui.settings.SettingsActivity;
 import com.wearweatherapp.data.model.domain.DailyItem;
 import com.wearweatherapp.data.model.domain.HourlyItem;
 import com.wearweatherapp.ui.clothing.TemperatureClothingActivity;
@@ -51,6 +44,12 @@ import com.wearweatherapp.ui.clothing.TemperatureClothingActivity5;
 import com.wearweatherapp.ui.clothing.TemperatureClothingActivity6;
 import com.wearweatherapp.ui.clothing.TemperatureClothingActivity7;
 import com.wearweatherapp.ui.clothing.TemperatureClothingActivity8;
+import com.wearweatherapp.ui.dust.DustActivity;
+import com.wearweatherapp.ui.main.adapter.DailyItemAdapter;
+import com.wearweatherapp.ui.main.adapter.HourlyItemAdapter;
+import com.wearweatherapp.ui.news.NewsXMLActivity;
+import com.wearweatherapp.ui.settings.SettingsActivity;
+import com.wearweatherapp.util.PreferenceManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -149,9 +148,9 @@ public class MainWeatherFragment extends Fragment {
     private void initView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         region=(TextView)rootView.findViewById(R.id.txt_region);
         current_temp = (TextView)rootView.findViewById(R.id.txt_temp_now);
-        current_location = (TextView)rootView.findViewById(R.id.txt_region);
-        current_bodily_temp=(TextView)rootView.findViewById(R.id.bodily_temp);
-        current_rain=(TextView)rootView.findViewById(R.id.precipitation_text);
+        current_location = (TextView) rootView.findViewById(R.id.txt_region);
+        current_bodily_temp = (TextView) rootView.findViewById(R.id.tv_value);
+        current_rain = (TextView) rootView.findViewById(R.id.precipitation_text);
         current_desc=(TextView)rootView.findViewById(R.id.txt_weather_description);
         weathericon = (ImageView)rootView.findViewById(R.id.iv_weather);
         current_temp_max =(TextView)rootView.findViewById(R.id.txt_temp_max);

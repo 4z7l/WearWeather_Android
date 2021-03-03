@@ -27,7 +27,7 @@ public class HourlyItemAdapter extends RecyclerView.Adapter<HourlyItemAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hourly, parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hourly_weather, parent, false);
 
         return new ViewHolder(v);
     }
@@ -56,9 +56,9 @@ public class HourlyItemAdapter extends RecyclerView.Adapter<HourlyItemAdapter.Vi
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            time_h=(TextView) itemView.findViewById(R.id.time_hourly);
-            temp_h=(TextView)itemView.findViewById(R.id.temp_hourly);
-            image=(ImageView)itemView.findViewById(R.id.hourly_image);
+            time_h = (TextView) itemView.findViewById(R.id.tv_time);
+            temp_h = (TextView) itemView.findViewById(R.id.temp_hourly);
+            image = (ImageView) itemView.findViewById(R.id.iv_hourly_weather);
         }
     }
 }

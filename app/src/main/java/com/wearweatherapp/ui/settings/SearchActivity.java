@@ -2,11 +2,6 @@ package com.wearweatherapp.ui.settings;
 
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,10 +22,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.wearweatherapp.data.model.domain.AddressData;
-import com.wearweatherapp.util.AddressParsingUtil;
-import com.wearweatherapp.util.PreferenceManager;
 import com.wearweatherapp.R;
+import com.wearweatherapp.data.model.domain.AddressData;
+import com.wearweatherapp.util.AddressUtil;
+import com.wearweatherapp.util.PreferenceManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -116,7 +114,7 @@ public class SearchActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         String temp = (String)address.getText();
-                        temp = AddressParsingUtil.getSigunguFromVWorldAddress(temp);
+                        temp = AddressUtil.getSigunguFromVWorldAddress(temp);
 
                         PreferenceManager.setFloat(getApplicationContext(),"LATITUDE",(float)lat);
                         PreferenceManager.setFloat(getApplicationContext(),"LONGITUDE",(float)lon);

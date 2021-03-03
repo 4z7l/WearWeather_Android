@@ -13,7 +13,7 @@ public class ExtraWeatherItemMapper {
         ArrayList<ExtraWeatherItem> out = new ArrayList<>();
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("a hh:mm", Locale.KOREA);
 
-        String feels_like = input.getMain().getFeelsLike() + "°C";
+        String feels_like = Math.round(input.getMain().getFeelsLike() * 10) + "°C";
         out.add(new ExtraWeatherItem("체감온도", feels_like));
 
         Double rainValue;
@@ -23,7 +23,7 @@ public class ExtraWeatherItemMapper {
             else rainValue = 0.0;
         } else rainValue = 0.0;
         String rain = Math.round(rainValue * 10) + "mm";
-        out.add(new ExtraWeatherItem("강수량", feels_like));
+        out.add(new ExtraWeatherItem("강수량", rain));
 
         String pressure = input.getMain().getPressure() + "hPa";
         out.add(new ExtraWeatherItem("기압", pressure));

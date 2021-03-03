@@ -35,10 +35,13 @@ import retrofit2.Response;
 
 public class WeatherActivity extends AppCompatActivity {
 
-    ActivityWeatherBinding binding;
-    DailyWeatherAdapter dailyWeatherAdapter;
-    HourlyWeatherAdapter hourlyWeatherAdapter;
-    ExtraWeatherAdapter extraWeatherAdapter;
+    private ActivityWeatherBinding binding;
+    private DailyWeatherAdapter dailyWeatherAdapter = new DailyWeatherAdapter();
+    private HourlyWeatherAdapter hourlyWeatherAdapter = new HourlyWeatherAdapter();
+    private ExtraWeatherAdapter extraWeatherAdapter = new ExtraWeatherAdapter();
+
+    private double latitude = 37.5172, longitude = 127.0423;
+    private String city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,21 @@ public class WeatherActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
 
         initView();
+        getData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    private void getData() {
+        latitude = PreferenceManager.getFloat(this, "LATITUDE");
+        longitude = PreferenceManager.getFloat(this, "LONGITUDE");
+        city = PreferenceManager.getString(this, "CITY");
+
+        binding.txtRegion.setText(city);
         getCurrentWeather();
         getFutureWeather();
     }
@@ -76,8 +94,7 @@ public class WeatherActivity extends AppCompatActivity {
         binding.slWeather.setOnRefreshListener(() -> {
             /* 새로고침 시 수행될 코드 */
             setBackgroundByTime();
-            getCurrentWeather();
-            getFutureWeather();
+            getData();
 
             /* 새로고침 완료 */
             binding.slWeather.setRefreshing(false);
@@ -130,7 +147,7 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     private void getCurrentWeather() {
-        RetrofitHelper.getInstance().getCurrentWeather(37.5172, 127.0423,
+        RetrofitHelper.getInstance().getCurrentWeather(latitude, longitude,
                 new Callback<CurrentWeather>() {
                     @Override
                     public void onResponse(Call<CurrentWeather> call, Response<CurrentWeather> response) {
@@ -163,7 +180,7 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     private void getFutureWeather() {
-        RetrofitHelper.getInstance().getFutureWeather(37.5172, 127.0423,
+        RetrofitHelper.getInstance().getFutureWeather(latitude, longitude,
                 new Callback<FutureWeather>() {
                     @Override
                     public void onResponse(Call<FutureWeather> call, Response<FutureWeather> response) {
