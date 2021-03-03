@@ -1,4 +1,4 @@
-package com.wearweatherapp.ui.weather;
+package com.wearweatherapp.ui.main.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,24 +7,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.wearweatherapp.data.model.domain.DailyWeatherItem;
-import com.wearweatherapp.databinding.ItemDailyWeatherBinding;
+import com.wearweatherapp.data.model.domain.HourlyWeather;
+import com.wearweatherapp.databinding.ItemHourlyWeatherBinding;
 
 import java.util.ArrayList;
 
-public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapter.ViewHolder> {
+public class HourlyWeatherAdapter extends RecyclerView.Adapter<HourlyWeatherAdapter.ViewHolder> {
 
-    private ArrayList<DailyWeatherItem> data = new ArrayList<>();
+    private ArrayList<HourlyWeather> data = new ArrayList<>();
 
-    public void setData(ArrayList<DailyWeatherItem> list) {
-        this.data = list;
+    public void setData(ArrayList<HourlyWeather> data) {
+        this.data = data;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        ItemDailyWeatherBinding binding = ItemDailyWeatherBinding.inflate(inflater, parent, false);
+        ItemHourlyWeatherBinding binding = ItemHourlyWeatherBinding.inflate(inflater, parent, false);
 
         return new ViewHolder(binding);
     }
@@ -40,20 +40,19 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ItemDailyWeatherBinding binding;
+        ItemHourlyWeatherBinding binding;
 
-        public ViewHolder(ItemDailyWeatherBinding binding) {
+        public ViewHolder(ItemHourlyWeatherBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
-        void bind(DailyWeatherItem item) {
+        void bind(HourlyWeather item) {
             binding.setData(item);
-            Glide.with(binding.ivDaily.getContext())
-                    .load("http://openweathermap.org/img/wn/"+item.getIcon()+"@2x.png")
-                    .into(binding.ivDaily);
+            Glide.with(binding.ivHourlyWeather.getContext())
+                    .load("http://openweathermap.org/img/wn/" + item.getIcon() + "@2x.png")
+                    .into(binding.ivHourlyWeather);
         }
 
     }
-
 }

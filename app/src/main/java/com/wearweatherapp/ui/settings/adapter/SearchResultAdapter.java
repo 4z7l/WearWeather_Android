@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.wearweatherapp.data.model.domain.City;
 import com.wearweatherapp.databinding.ItemSearchResultBinding;
+import com.wearweatherapp.util.OnItemClickListener;
 
 import java.util.ArrayList;
 

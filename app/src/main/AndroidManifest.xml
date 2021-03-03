@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.weather.WeatherActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true" />
         <activity android:name=".ui.settings.OpenSourceActivity" />
         <activity android:name=".ui.news.ClothesClickWebView" />
@@ -42,7 +42,6 @@
         <activity android:name=".ui.clothing.TemperatureClothingActivity" />
         <activity android:name=".ui.news.NewsClickViewActivity" />
         <activity android:name=".ui.news.NewsXMLActivity" />
-        <activity android:name=".ui.main.MainActivity" />
     </application>
 
 </manifest>

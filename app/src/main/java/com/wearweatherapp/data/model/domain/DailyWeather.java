@@ -1,6 +1,6 @@
 package com.wearweatherapp.data.model.domain;
 
-public class DailyWeatherItem {
+public class DailyWeather {
     private String dt;
     private String max_temp;
     private String min_temp;
@@ -38,7 +38,7 @@ public class DailyWeatherItem {
         this.icon = icon;
     }
 
-    public DailyWeatherItem(String dt, String max_temp, String min_temp, String icon) {
+    public DailyWeather(String dt, String max_temp, String min_temp, String icon) {
         this.dt = dt;
         this.max_temp = max_temp;
         this.min_temp = min_temp;

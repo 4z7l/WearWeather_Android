@@ -1,6 +1,6 @@
 package com.wearweatherapp.data.model.mapper;
 
-import com.wearweatherapp.data.model.domain.HourlyWeatherItem;
+import com.wearweatherapp.data.model.domain.HourlyWeather;
 import com.wearweatherapp.data.model.response.weather.Hourly;
 
 import java.text.SimpleDateFormat;
@@ -11,8 +11,8 @@ import java.util.Locale;
 
 public class HourlyWeatherItemMapper {
 
-    public static ArrayList<HourlyWeatherItem> transform(List<Hourly> input) {
-        ArrayList<HourlyWeatherItem> out = new ArrayList<HourlyWeatherItem>();
+    public static ArrayList<HourlyWeather> transform(List<Hourly> input) {
+        ArrayList<HourlyWeather> out = new ArrayList<HourlyWeather>();
         for (Hourly item : input) {
             Date date = new java.util.Date(item.getDt() * 1000L);
             SimpleDateFormat sdf = new java.text.SimpleDateFormat("a h" + "시", Locale.KOREA);
@@ -21,7 +21,7 @@ public class HourlyWeatherItemMapper {
             String temp = Math.round(item.getTemp()) + "°C";
             String icon = item.getWeather().get(0).getIcon();
 
-            out.add(new HourlyWeatherItem(dt, temp, icon));
+            out.add(new HourlyWeather(dt, temp, icon));
         }
 
         return out;

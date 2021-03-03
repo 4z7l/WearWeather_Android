@@ -1,4 +1,4 @@
-package com.wearweatherapp.ui.weather;
+package com.wearweatherapp.ui.main.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -6,16 +6,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.wearweatherapp.data.model.domain.ExtraWeatherItem;
+import com.wearweatherapp.data.model.domain.ExtraWeather;
 import com.wearweatherapp.databinding.ItemExtraWeatherBinding;
 
 import java.util.ArrayList;
 
 public class ExtraWeatherAdapter extends RecyclerView.Adapter<ExtraWeatherAdapter.ViewHolder> {
 
-    private ArrayList<ExtraWeatherItem> data = new ArrayList<>();
+    private ArrayList<ExtraWeather> data = new ArrayList<>();
 
-    public void setData(ArrayList<ExtraWeatherItem> data) {
+    public void setData(ArrayList<ExtraWeather> data) {
         this.data = data;
     }
 
@@ -46,7 +46,7 @@ public class ExtraWeatherAdapter extends RecyclerView.Adapter<ExtraWeatherAdapte
             this.binding = binding;
         }
 
-        void bind(ExtraWeatherItem item) {
+        void bind(ExtraWeather item) {
             binding.setData(item);
         }
     }

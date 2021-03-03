@@ -1,11 +1,11 @@
 package com.wearweatherapp.data.model.domain;
 
-public class HourlyWeatherItem {
+public class HourlyWeather {
     private String dt;
     private String temp;
     private String icon;
 
-    public HourlyWeatherItem(String dt, String temp, String icon) {
+    public HourlyWeather(String dt, String temp, String icon) {
         this.dt = dt;
         this.temp = temp;
         this.icon = icon;

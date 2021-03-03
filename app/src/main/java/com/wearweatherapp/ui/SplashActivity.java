@@ -9,14 +9,13 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.wearweatherapp.R;
-import com.wearweatherapp.ui.weather.WeatherActivity;
+import com.wearweatherapp.ui.main.MainActivity;
 import com.wearweatherapp.util.AddressUtil;
 import com.wearweatherapp.util.PreferenceManager;
 
@@ -88,8 +87,6 @@ public class SplashActivity extends AppCompatActivity {
         float prefLat = PreferenceManager.getFloat(this, "LATITUDE");
         float prefLon = PreferenceManager.getFloat(this, "LONGITUDE");
 
-        Log.e("SEULGI1", "" + prefLat + " " + prefLon + PreferenceManager.getString(this, "CITY"));
-
         if (prefLat == -1.0 && prefLon == -1.0) {
             if (location != null) {
                 newLat = (float) location.getLatitude();
@@ -104,9 +101,7 @@ public class SplashActivity extends AppCompatActivity {
                 PreferenceManager.setString(this, "CITY", address);
             }
         }
-        Log.e("SEULGI2", "" + prefLat + " " + prefLon + PreferenceManager.getString(this, "CITY"));
-
-        startActivity(new Intent(this, WeatherActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 

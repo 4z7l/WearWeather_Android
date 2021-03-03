@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.wearweatherapp.data.model.domain.ExtraWeatherItem" />
+            type="com.wearweatherapp.data.model.domain.ExtraWeather" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

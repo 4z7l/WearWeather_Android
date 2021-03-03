@@ -1,4 +1,4 @@
-package com.wearweatherapp.ui.settings.adapter;
+package com.wearweatherapp.util;
 
 import com.wearweatherapp.data.model.domain.City;
 

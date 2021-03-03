@@ -1,10 +1,10 @@
 package com.wearweatherapp.data.model.domain;
 
-public class ExtraWeatherItem {
+public class ExtraWeather {
     String description;
     String value;
 
-    public ExtraWeatherItem(String description, String value) {
+    public ExtraWeather(String description, String value) {
         this.description = description;
         this.value = value;
     }

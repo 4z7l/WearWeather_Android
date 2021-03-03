@@ -1,130 +1,207 @@
 package com.wearweatherapp.ui.main;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-
-import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.LocationManager;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayout;
-import com.wearweatherapp.ui.main.adapter.MainTabPagerAdapter;
-import com.wearweatherapp.util.GpsTracker;
-import com.wearweatherapp.util.PreferenceManager;
-import com.wearweatherapp.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import java.io.IOException;
-import java.util.List;
+import com.bumptech.glide.Glide;
+import com.wearweatherapp.R;
+import com.wearweatherapp.data.model.mapper.DailyWeatherItemMapper;
+import com.wearweatherapp.data.model.mapper.ExtraWeatherItemMapper;
+import com.wearweatherapp.data.model.mapper.HourlyWeatherItemMapper;
+import com.wearweatherapp.data.model.response.ResCurrentWeather;
+import com.wearweatherapp.data.model.response.ResFutureWeather;
+import com.wearweatherapp.databinding.ActivityMainBinding;
+import com.wearweatherapp.network.RetrofitHelper;
+import com.wearweatherapp.ui.dust.DustActivity;
+import com.wearweatherapp.ui.main.adapter.DailyWeatherAdapter;
+import com.wearweatherapp.ui.main.adapter.ExtraWeatherAdapter;
+import com.wearweatherapp.ui.main.adapter.HourlyWeatherAdapter;
+import com.wearweatherapp.ui.news.NewsXMLActivity;
+import com.wearweatherapp.ui.settings.SettingsActivity;
+import com.wearweatherapp.util.PreferenceManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TabLayout tabLayout;
-    private MainTabPagerAdapter pagerAdpater;
-    private ViewPager viewPager;
+    private ActivityMainBinding binding;
+    private DailyWeatherAdapter dailyWeatherAdapter = new DailyWeatherAdapter();
+    private HourlyWeatherAdapter hourlyWeatherAdapter = new HourlyWeatherAdapter();
+    private ExtraWeatherAdapter extraWeatherAdapter = new ExtraWeatherAdapter();
 
-    private GpsTracker gpsTracker;
-    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    private static final int PERMISSIONS_REQUEST_CODE = 100;
-    String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-
-    private double latitude;
-    private double longitude;
+    private double latitude = 37.5172, longitude = 127.0423;
+    private String city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         initView();
-
-        if (!PreferenceManager.getBoolean(this, "MAIN_NOTICE_DIALOG")) {
-            showMainNoticeDialog();
-        }
+        getData();
     }
 
-    private void initSharedPreference() {
-        Log.e("SEULGI SP", "" + PreferenceManager.getFloat(this, "LATITUDE"));
-        Log.e("SEULGI SP", "" + PreferenceManager.getFloat(this, "LONGITUDE"));
-        if (PreferenceManager.getFloat(this, "LATITUDE") == -1F) {
-            if (latitude != 0.0 && longitude != 0.0) {
-                PreferenceManager.setFloat(this, "LATITUDE", (float) latitude);
-            } else {
-                PreferenceManager.setFloat(this, "LATITUDE", 37.5172f);
-            }
-        }
-        if (PreferenceManager.getFloat(this, "LONGITUDE") == -1F) {
-            if (latitude != 0.0 && longitude != 0.0) {
-                PreferenceManager.setFloat(this, "LONGITUDE", (float) longitude);
-            } else {
-                PreferenceManager.setFloat(this, "LONGITUDE", 127.0473f);
-            }
-        }
-        if (PreferenceManager.getString(this, "CITY").equals("")) {
-            PreferenceManager.setString(getApplicationContext(), "CITY", "서울특별시 강남구");
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+    }
 
-        PreferenceManager.setInt(this, "REGION_NUMBER", 1);
+    private void getData() {
+        latitude = PreferenceManager.getFloat(this, "LATITUDE");
+        longitude = PreferenceManager.getFloat(this, "LONGITUDE");
+        city = PreferenceManager.getString(this, "CITY");
+
+        binding.txtRegion.setText(city);
+        getCurrentWeather();
+        getFutureWeather();
     }
 
     private void initView() {
-        /* tab layout */
-        tabLayout = (TabLayout) findViewById(R.id.main_tab_layout);
-        pagerAdpater = new MainTabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        setBackgroundByTime();
+        initSwipeLayout();
+        initDrawerLayout();
+        initRecyclerView();
+    }
 
-        int region_number = PreferenceManager.getInt(this, "REGION_NUMBER");
-
-        pagerAdpater.initFragment(region_number);
-        for (int i = 0; i < region_number; i++) {
-            tabLayout.addTab(tabLayout.newTab());
+    private void setBackgroundByTime() {
+        Date date = new Date(System.currentTimeMillis());
+        String hourText = new SimpleDateFormat("HH", Locale.KOREA).format(date);
+        int time = Integer.parseInt(hourText);
+        if (time >= 0 && time < 6) {
+            binding.slWeather.setBackgroundResource(R.drawable.sunny_night_background);
+        } else if (time >= 6 && time < 15) {
+            binding.slWeather.setBackgroundResource(R.drawable.sunny_afternoon_background);
+        } else if (time >= 15 && time < 20) {
+            binding.slWeather.setBackgroundResource(R.drawable.sunny_sunset_background);
+        } else if (time >= 20 && time < 24) {
+            binding.slWeather.setBackgroundResource(R.drawable.sunny_night_background);
         }
+    }
 
-        viewPager = (ViewPager) findViewById(R.id.main_tab_viewpager);
-        viewPager.setAdapter(pagerAdpater);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+    private void initSwipeLayout() {
+        binding.slWeather.setOnRefreshListener(() -> {
+            /* 새로고침 시 수행될 코드 */
+            setBackgroundByTime();
+            getData();
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                pagerAdpater.notifyDataSetChanged();
-                viewPager.setCurrentItem(tab.getPosition());
-                pagerAdpater.getWeatherFragment(tab.getPosition()).displayWeather(getApplicationContext());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
+            /* 새로고침 완료 */
+            binding.slWeather.setRefreshing(false);
         });
     }
 
-    private void showMainNoticeDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("앱 처음 실행 시 공지")
-                .setMessage("설정창에 들어가서 날씨 정보를 받을 위치를 설정하세요!")
-                .setPositiveButton("확인", (dialogInterface, i) -> {
-                })
-                .setNegativeButton("다시 보지 않기", (dialogInterface, i) -> {
-                            PreferenceManager.setBoolean(getApplicationContext(), "MAIN_NOTICE_DIALOG", true);
-                        }
-                )
-                .show();
+    private void initDrawerLayout() {
+        binding.btnDrawer.setOnClickListener(v -> {
+                    if (!binding.dlWeather.isDrawerOpen(Gravity.RIGHT)) {
+                        binding.dlWeather.openDrawer(Gravity.RIGHT);
+                    } else {
+                        binding.dlWeather.closeDrawer(Gravity.RIGHT);
+                    }
+                }
+        );
+        binding.nvDrawer.setNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_dust) {
+                startActivity(new Intent(getBaseContext(), DustActivity.class)
+                        .putExtra("city", PreferenceManager.getString(getBaseContext(), "CITY")));
+            } else if (itemId == R.id.nav_clothing) {
+                Toast.makeText(this, "서비스 준비중입니다", Toast.LENGTH_SHORT).show();
+            } else if (itemId == R.id.nav_news) {
+                startActivity(new Intent(getBaseContext(), NewsXMLActivity.class));
+            } else if (itemId == R.id.nav_settings) {
+                startActivity(new Intent(getBaseContext(), SettingsActivity.class));
+            }
+            binding.dlWeather.closeDrawer(Gravity.RIGHT);
+            return false;
+        });
+
     }
 
+    private void initRecyclerView() {
+        dailyWeatherAdapter = new DailyWeatherAdapter();
+        hourlyWeatherAdapter = new HourlyWeatherAdapter();
+        extraWeatherAdapter = new ExtraWeatherAdapter();
 
+        binding.rvDaily.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvDaily.setHasFixedSize(true);
+        binding.rvDaily.setAdapter(dailyWeatherAdapter);
+
+        binding.rvHourly.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.rvHourly.setHasFixedSize(true);
+        binding.rvHourly.setAdapter(hourlyWeatherAdapter);
+
+        binding.rvExtra.setLayoutManager(new GridLayoutManager(this, 2));
+        binding.rvExtra.setHasFixedSize(true);
+        binding.rvExtra.setAdapter(extraWeatherAdapter);
+    }
+
+    private void getCurrentWeather() {
+        RetrofitHelper.getInstance().getCurrentWeather(latitude, longitude,
+                new Callback<ResCurrentWeather>() {
+                    @Override
+                    public void onResponse(Call<ResCurrentWeather> call, Response<ResCurrentWeather> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            String str;
+                            binding.txtWeatherDescription.setText(response.body().getWeather().get(0).getDescription());
+                            str = Math.round(response.body().getMain().getTemp()) + getString(R.string.temperature_unit);
+                            binding.txtTempNow.setText(str);
+                            str = "최고온도 " + Math.round(response.body().getMain().getTempMax()) + getString(R.string.temperature_unit);
+                            binding.txtTempMax.setText(str);
+                            str = "최고온도 " + Math.round(response.body().getMain().getTempMin()) + getString(R.string.temperature_unit);
+                            binding.txtTempMin.setText(str);
+
+                            str = response.body().getWeather().get(0).getIcon();
+                            Glide.with(getBaseContext())
+                                    .load("http://openweathermap.org/img/wn/" + str + "@2x.png")
+                                    .into(binding.ivWeather);
+
+                            extraWeatherAdapter.setData(ExtraWeatherItemMapper.transform(response.body()));
+                            extraWeatherAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResCurrentWeather> call, Throwable t) {
+                        Log.e(MainActivity.class.getSimpleName(), "getCurrentWeather", t);
+                    }
+                });
+
+    }
+
+    private void getFutureWeather() {
+        RetrofitHelper.getInstance().getFutureWeather(latitude, longitude,
+                new Callback<ResFutureWeather>() {
+                    @Override
+                    public void onResponse(Call<ResFutureWeather> call, Response<ResFutureWeather> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            hourlyWeatherAdapter.setData(HourlyWeatherItemMapper.transform(response.body().getHourly()));
+                            hourlyWeatherAdapter.notifyDataSetChanged();
+
+                            dailyWeatherAdapter.setData(DailyWeatherItemMapper.transform(response.body().getDaily()));
+                            dailyWeatherAdapter.notifyDataSetChanged();
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResFutureWeather> call, Throwable t) {
+                        Log.e(MainActivity.class.getSimpleName(), "getFutureWeather", t);
+                    }
+                });
+
+    }
 }

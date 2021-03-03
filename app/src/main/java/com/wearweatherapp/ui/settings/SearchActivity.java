@@ -74,7 +74,6 @@ public class SearchActivity extends AppCompatActivity {
         RetrofitHelper.getInstance().searchAddress(query, new Callback<ResSearch>() {
             @Override
             public void onResponse(Call<ResSearch> call, retrofit2.Response<ResSearch> response) {
-                Log.e("search", response.toString());
                 if (response.isSuccessful()) {
                     if (response.body().getResponse().getStatus().equals("OK")) {
                         List<Item> items = response.body().getResponse().getResult().getItems();
@@ -86,7 +85,6 @@ public class SearchActivity extends AppCompatActivity {
                             double lat = Double.parseDouble(item.getPoint().getY());
                             double lon = Double.parseDouble(item.getPoint().getX());
                             cities.add(new City(lat, lon, address, sigungu));
-                            Log.e("SEULGI", "" + lat + " " + lon);
                         }
                         searchResultAdapter.setData(cities);
                         binding.rvSearch.setAdapter(searchResultAdapter);
