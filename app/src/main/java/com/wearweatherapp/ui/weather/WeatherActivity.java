@@ -16,8 +16,8 @@ import com.wearweatherapp.R;
 import com.wearweatherapp.data.model.mapper.DailyWeatherItemMapper;
 import com.wearweatherapp.data.model.mapper.ExtraWeatherItemMapper;
 import com.wearweatherapp.data.model.mapper.HourlyWeatherItemMapper;
-import com.wearweatherapp.data.model.response.CurrentWeather;
-import com.wearweatherapp.data.model.response.FutureWeather;
+import com.wearweatherapp.data.model.response.ResCurrentWeather;
+import com.wearweatherapp.data.model.response.ResFutureWeather;
 import com.wearweatherapp.databinding.ActivityWeatherBinding;
 import com.wearweatherapp.network.RetrofitHelper;
 import com.wearweatherapp.ui.dust.DustActivity;
@@ -148,9 +148,9 @@ public class WeatherActivity extends AppCompatActivity {
 
     private void getCurrentWeather() {
         RetrofitHelper.getInstance().getCurrentWeather(latitude, longitude,
-                new Callback<CurrentWeather>() {
+                new Callback<ResCurrentWeather>() {
                     @Override
-                    public void onResponse(Call<CurrentWeather> call, Response<CurrentWeather> response) {
+                    public void onResponse(Call<ResCurrentWeather> call, Response<ResCurrentWeather> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             String str;
                             binding.txtWeatherDescription.setText(response.body().getWeather().get(0).getDescription());
@@ -172,7 +172,7 @@ public class WeatherActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<CurrentWeather> call, Throwable t) {
+                    public void onFailure(Call<ResCurrentWeather> call, Throwable t) {
                         Log.e(WeatherActivity.class.getSimpleName(), "getCurrentWeather", t);
                     }
                 });
@@ -181,9 +181,9 @@ public class WeatherActivity extends AppCompatActivity {
 
     private void getFutureWeather() {
         RetrofitHelper.getInstance().getFutureWeather(latitude, longitude,
-                new Callback<FutureWeather>() {
+                new Callback<ResFutureWeather>() {
                     @Override
-                    public void onResponse(Call<FutureWeather> call, Response<FutureWeather> response) {
+                    public void onResponse(Call<ResFutureWeather> call, Response<ResFutureWeather> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             hourlyWeatherAdapter.setData(HourlyWeatherItemMapper.transform(response.body().getHourly()));
                             hourlyWeatherAdapter.notifyDataSetChanged();
@@ -195,7 +195,7 @@ public class WeatherActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<FutureWeather> call, Throwable t) {
+                    public void onFailure(Call<ResFutureWeather> call, Throwable t) {
                         Log.e(WeatherActivity.class.getSimpleName(), "getFutureWeather", t);
                     }
                 });

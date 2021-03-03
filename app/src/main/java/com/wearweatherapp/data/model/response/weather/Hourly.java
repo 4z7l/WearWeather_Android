@@ -1,21 +1,16 @@
 
-package com.wearweatherapp.data.model.response;
+package com.wearweatherapp.data.model.response.weather;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Current {
+import java.util.List;
+
+public class Hourly {
 
     @SerializedName("dt")
     @Expose
     private Integer dt;
-    @SerializedName("sunrise")
-    @Expose
-    private Integer sunrise;
-    @SerializedName("sunset")
-    @Expose
-    private Integer sunset;
     @SerializedName("temp")
     @Expose
     private Double temp;
@@ -49,6 +44,9 @@ public class Current {
     @SerializedName("weather")
     @Expose
     private List<Weather> weather = null;
+    @SerializedName("pop")
+    @Expose
+    private Double pop;
 
     public Integer getDt() {
         return dt;
@@ -56,22 +54,6 @@ public class Current {
 
     public void setDt(Integer dt) {
         this.dt = dt;
-    }
-
-    public Integer getSunrise() {
-        return sunrise;
-    }
-
-    public void setSunrise(Integer sunrise) {
-        this.sunrise = sunrise;
-    }
-
-    public Integer getSunset() {
-        return sunset;
-    }
-
-    public void setSunset(Integer sunset) {
-        this.sunset = sunset;
     }
 
     public Double getTemp() {
@@ -160,6 +142,14 @@ public class Current {
 
     public void setWeather(List<Weather> weather) {
         this.weather = weather;
+    }
+
+    public Double getPop() {
+        return pop;
+    }
+
+    public void setPop(Double pop) {
+        this.pop = pop;
     }
 
 }

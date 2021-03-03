@@ -40,15 +40,20 @@ public class SettingsActivity extends AppCompatActivity {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 1, new LocationListener() {
                 @Override
-                public void onLocationChanged(@NonNull Location location) {
-                    String address = AddressUtil.getCurrentAddress(getBaseContext(), location.getLatitude(), location.getLongitude());
-                    if (address != null) {
-                        address = AddressUtil.getSigunguFromFullAddress(address);
-                        PreferenceManager.setString(getBaseContext(), "CITY", address);
-                        PreferenceManager.setFloat(getBaseContext(), "LATITUDE", (float) location.getLatitude());
-                        PreferenceManager.setFloat(getBaseContext(), "LONGITUDE", (float) location.getLongitude());
-                        Toast.makeText(getBaseContext(), address + "로 설정되었습니다", Toast.LENGTH_SHORT).show();
+                public void onLocationChanged(Location location) {
+                    if (location == null) {
+                        Toast.makeText(getBaseContext(), "주소를 찾지 못했습니다", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String address = AddressUtil.getCurrentAddress(getBaseContext(), location.getLatitude(), location.getLongitude());
+                        if (address != null) {
+                            address = AddressUtil.getSigunguFromFullAddress(address);
+                            PreferenceManager.setString(getBaseContext(), "CITY", address);
+                            PreferenceManager.setFloat(getBaseContext(), "LATITUDE", (float) location.getLatitude());
+                            PreferenceManager.setFloat(getBaseContext(), "LONGITUDE", (float) location.getLongitude());
+                            Toast.makeText(getBaseContext(), address + "로 설정되었습니다", Toast.LENGTH_SHORT).show();
+                        }
                     }
+
                     lm.removeUpdates(this);
                 }
                 @Override

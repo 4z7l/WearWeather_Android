@@ -1,18 +1,12 @@
 package com.wearweatherapp.network;
 
-import com.wearweatherapp.data.model.response.CurrentWeather;
-import com.wearweatherapp.data.model.response.FutureWeather;
-import com.wearweatherapp.data.remote.WeatherService;
+import com.wearweatherapp.data.model.response.ResCurrentWeather;
+import com.wearweatherapp.data.model.response.ResFutureWeather;
+import com.wearweatherapp.data.model.response.ResSearch;
+import com.wearweatherapp.data.remote.SearchApi;
+import com.wearweatherapp.data.remote.WeatherApi;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -43,57 +37,44 @@ public class RetrofitHelper {
     }
 
     public void buildRetrofit() {
-        OkHttpClient httpClient = new OkHttpClient.Builder()
-                .addInterceptor(new HttpQueryInterceptor())
+        OkHttpClient weatherHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new WeatherQueryInterceptor())
+                .addInterceptor(new HttpLoggingInterceptor())
+                .build();
+
+        OkHttpClient vworldHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new SearchQueryInterceptor())
                 .addInterceptor(new HttpLoggingInterceptor())
                 .build();
 
         weatherRetrofit = new Retrofit.Builder()
-                .client(httpClient)
+                .client(weatherHttpClient)
                 .baseUrl(WEATHER_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        OkHttpClient httpClient2 = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @NotNull
-                    @Override
-                    public Response intercept(@NotNull Chain chain) throws IOException {
-                        HttpUrl originalHttpUrl = chain.request().url();
-                        HttpUrl url = originalHttpUrl.newBuilder()
-                                .addQueryParameter("service", "address")
-                                .addQueryParameter("request", "getAddress")
-                                .addQueryParameter("type", "road")
-                                .addQueryParameter("key", "2566C643-E5EC-317E-BBAB-B6064E98ACC2")
-                                .build();
-
-                        //service=address&request=getAddress&point=126.978275264,37.566642192&type=road&key=2566C643-E5EC-317E-BBAB-B6064E98ACC2
-                        Request.Builder requestBuilder = chain.request().newBuilder().url(url);
-                        Request request = requestBuilder.build();
-                        return chain.proceed(request);
-                    }
-                })
-                .addInterceptor(new HttpLoggingInterceptor())
-                .build();
-
-
         vworldRetrofit = new Retrofit.Builder()
-                .client(httpClient2)
+                .client(vworldHttpClient)
                 .baseUrl(VWORLD_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
-    public void getCurrentWeather(Double lat, Double lon, Callback<CurrentWeather> callback) {
-        WeatherService service = weatherRetrofit.create(WeatherService.class);
+    public void getCurrentWeather(Double lat, Double lon, Callback<ResCurrentWeather> callback) {
+        WeatherApi service = weatherRetrofit.create(WeatherApi.class);
         service.getCurrentWeather(lat, lon)
                 .enqueue(callback);
     }
 
-    public void getFutureWeather(Double lat, Double lon, Callback<FutureWeather> callback) {
-        WeatherService service = weatherRetrofit.create(WeatherService.class);
+    public void getFutureWeather(Double lat, Double lon, Callback<ResFutureWeather> callback) {
+        WeatherApi service = weatherRetrofit.create(WeatherApi.class);
         service.getFutureWeather(lat, lon)
                 .enqueue(callback);
     }
 
+    public void searchAddress(String query, Callback<ResSearch> callback) {
+        SearchApi service = vworldRetrofit.create(SearchApi.class);
+        service.searchAddress(query)
+                .enqueue(callback);
+    }
 }

@@ -1,7 +1,7 @@
 package com.wearweatherapp.data.model.mapper;
 
 import com.wearweatherapp.data.model.domain.ExtraWeatherItem;
-import com.wearweatherapp.data.model.response.CurrentWeather;
+import com.wearweatherapp.data.model.response.ResCurrentWeather;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ExtraWeatherItemMapper {
-    public static ArrayList<ExtraWeatherItem> transform(CurrentWeather input) {
+    public static ArrayList<ExtraWeatherItem> transform(ResCurrentWeather input) {
         ArrayList<ExtraWeatherItem> out = new ArrayList<>();
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("a hh:mm", Locale.KOREA);
 

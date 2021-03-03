@@ -3,10 +3,17 @@ package com.wearweatherapp.data.model.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.wearweatherapp.data.model.response.weather.Clouds;
+import com.wearweatherapp.data.model.response.weather.Coord;
+import com.wearweatherapp.data.model.response.weather.Main;
+import com.wearweatherapp.data.model.response.weather.Rain;
+import com.wearweatherapp.data.model.response.weather.Sys;
+import com.wearweatherapp.data.model.response.weather.Weather;
+import com.wearweatherapp.data.model.response.weather.Wind;
 
 import java.util.List;
 
-public class CurrentWeather {
+public class ResCurrentWeather {
 
     @SerializedName("coord")
     @Expose

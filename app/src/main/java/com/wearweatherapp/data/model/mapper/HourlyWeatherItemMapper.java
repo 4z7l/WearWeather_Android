@@ -1,7 +1,7 @@
 package com.wearweatherapp.data.model.mapper;
 
 import com.wearweatherapp.data.model.domain.HourlyWeatherItem;
-import com.wearweatherapp.data.model.response.Hourly;
+import com.wearweatherapp.data.model.response.weather.Hourly;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

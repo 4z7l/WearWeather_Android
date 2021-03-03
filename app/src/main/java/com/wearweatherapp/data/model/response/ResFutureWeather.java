@@ -1,11 +1,17 @@
 
 package com.wearweatherapp.data.model.response;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.wearweatherapp.data.model.response.weather.Alert;
+import com.wearweatherapp.data.model.response.weather.Current;
+import com.wearweatherapp.data.model.response.weather.Daily;
+import com.wearweatherapp.data.model.response.weather.Hourly;
+import com.wearweatherapp.data.model.response.weather.Minutely;
 
-public class FutureWeather {
+import java.util.List;
+
+public class ResFutureWeather {
 
     @SerializedName("lat")
     @Expose

@@ -1,7 +1,7 @@
 package com.wearweatherapp.data.model.mapper;
 
 import com.wearweatherapp.data.model.domain.DailyWeatherItem;
-import com.wearweatherapp.data.model.response.Daily;
+import com.wearweatherapp.data.model.response.weather.Daily;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

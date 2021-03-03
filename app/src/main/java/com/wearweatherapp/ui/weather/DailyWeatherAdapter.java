@@ -1,7 +1,6 @@
 package com.wearweatherapp.ui.weather;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,13 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.wearweatherapp.data.model.domain.DailyWeatherItem;
-import com.wearweatherapp.data.model.domain.HourlyWeatherItem;
-import com.wearweatherapp.data.model.response.Daily;
 import com.wearweatherapp.databinding.ItemDailyWeatherBinding;
-import com.wearweatherapp.databinding.ItemHourlyWeatherBinding;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapter.ViewHolder> {
 
@@ -27,7 +22,8 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         ItemDailyWeatherBinding binding = ItemDailyWeatherBinding.inflate(inflater, parent, false);
 
         return new ViewHolder(binding);
